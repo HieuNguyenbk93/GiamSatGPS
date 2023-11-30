@@ -1,5 +1,6 @@
 import React, {ReactNode} from 'react';
 import {UserProvider} from './UserState';
+import {RequestProvider} from './RequestState';
 
 interface GlobalStateProviderProps {
   children: ReactNode;
@@ -8,5 +9,10 @@ interface GlobalStateProviderProps {
 export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   children,
 }) => {
-  return <UserProvider>{children}</UserProvider>;
+  return (
+    <RequestProvider>
+      <UserProvider>{children}</UserProvider>
+    </RequestProvider>
+  );
+  // return <UserProvider>{children}</UserProvider>;
 };

@@ -22,3 +22,5 @@ export const ScreenName = {
   home: 'Home',
   profile: 'Profile',
 };
+
+export const FONT_SIZE = 16;
