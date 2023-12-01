@@ -21,15 +21,5 @@ export const login = async data => {
 
 export const GetLocalStore = () => {
   const getAccessToken = AsyncStorage.getItem('accessToken');
-  const requestState = useRequestState();
-  const userState = useUserState();
-  requestState.dispatch({type: 'PENDING'});
-  Promise.all([getAccessToken]).then(async ([resAccessToken]) => {
-    const data = {
-      accessToken: resAccessToken,
-    };
-    console.log('LOCAL STORE:', data);
-    userState.dispatch({type: 'LOGIN', payload: data});
-    requestState.dispatch({type: 'SUCCESS'});
-  });
+  return Promise.all([getAccessToken]);
 };

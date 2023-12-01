@@ -23,8 +23,8 @@ const AuthLoginScreen = () => {
         password: password,
       };
       const result = await login(data);
-      userState.dispatch({type: 'LOGIN', payload: data});
       console.log(result);
+      userState.dispatch({type: 'LOGIN', payload: result});
       requestState.dispatch({type: 'SUCCESS'});
     } catch (error) {
       console.log(error);
