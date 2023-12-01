@@ -3,13 +3,13 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import AppText from '../AppText';
 import {ColorGoogle} from '../../utils/constant';
 
-function AppButton({style, title, onPress}): JSX.Element {
+const AppButton = ({style, title, onPress}) => {
   return (
     <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       <AppText style={styles.text}>{title.toUpperCase()}</AppText>
     </TouchableOpacity>
   );
-}
+};
 
 export default AppButton;
 

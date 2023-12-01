@@ -6,37 +6,37 @@ import {ColorGoogle} from '../../utils/constant';
 import AppInput from '../../components/AppInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppButton from '../../components/AppButton';
-import {useUserState} from '../../state/UserState';
-import {useRequestState} from '../../state/RequestState';
-import {login} from '../../bussiness/authen';
+import {useDispatch, useSelector} from 'react-redux';
+import {isErrorSelector} from '../../redux/selectors/requestSeletor';
+import {authenSelector} from '../../redux/selectors/authenSelector';
+import {loginThunk} from '../../redux/thunk/authenThunkAction';
 
 const AuthLoginScreen = () => {
-  const userState = useUserState();
-  const requestState = useRequestState();
+  const dispatch = useDispatch();
+  const isError = useSelector(isErrorSelector);
+  const authen = useSelector(authenSelector);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
   const onPressLogin = async () => {
     try {
-      requestState.dispatch({type: 'PENDING'});
       const data = {
         username: username,
         password: password,
       };
-      const result = await login(data);
-      console.log(result);
-      userState.dispatch({type: 'LOGIN', payload: result});
-      requestState.dispatch({type: 'SUCCESS'});
+      dispatch(loginThunk(data));
     } catch (error) {
       console.log(error);
-      requestState.dispatch({type: 'ERROR', payload: error});
     }
   };
   const showState = () => {
-    console.log('STATE: ', userState.state);
+    console.log('STATE: ');
   };
+
   useEffect(() => {
     console.log('INIT SCREEN');
   }, []);
+
   return (
     <AppBackgroundView>
       <View style={[globalStyles.flex1, styles.header]}>

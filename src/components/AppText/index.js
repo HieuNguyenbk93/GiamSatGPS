@@ -3,7 +3,7 @@ import React from 'react';
 import {ColorGoogle, FONT_SIZE} from '../../utils/constant';
 import globalStyles from '../../utils/globalStyle';
 
-function AppText({children, required, style, ...props}): JSX.Element {
+const AppText = ({children, required, style, ...props}) => {
   return (
     <View style={globalStyles.row}>
       <Text {...props} style={[styles.text, style]} allowFontScaling={false}>
@@ -12,7 +12,7 @@ function AppText({children, required, style, ...props}): JSX.Element {
       {required ? <Text style={[styles.text, styles.danger]}>*</Text> : <></>}
     </View>
   );
-}
+};
 
 export default AppText;
 
@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   danger: {
-    color: ColorGoogle.Red,
+    color: ColorGoogle.MediumRed,
   },
 });
