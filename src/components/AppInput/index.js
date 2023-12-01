@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {ColorGoogle, FONT_SIZE} from '../../utils/constant';
 
-function AppInput({style, ...props}): JSX.Element {
+const AppInput = ({style, ...props}) => {
   return (
     <TextInput
       allowFontScaling={false}
@@ -11,7 +11,7 @@ function AppInput({style, ...props}): JSX.Element {
       placeholderTextColor={ColorGoogle.Grey}
     />
   );
-}
+};
 
 export default AppInput;
 

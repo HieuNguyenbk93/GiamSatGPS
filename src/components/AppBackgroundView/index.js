@@ -3,7 +3,7 @@ import React from 'react';
 import globalStyles from '../../utils/globalStyle';
 import {ColorGoogle} from '../../utils/constant';
 
-function AppBackgroundView({children, opacity}): JSX.Element {
+const AppBackgroundView = ({children, opacity}) => {
   return (
     <View style={[globalStyles.container, styles.bgWhtie]}>
       <SafeAreaView style={[globalStyles.container, {opacity: opacity}]}>
@@ -12,7 +12,7 @@ function AppBackgroundView({children, opacity}): JSX.Element {
       </SafeAreaView>
     </View>
   );
-}
+};
 
 export default AppBackgroundView;
 

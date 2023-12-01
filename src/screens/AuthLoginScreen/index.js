@@ -6,37 +6,30 @@ import {ColorGoogle} from '../../utils/constant';
 import AppInput from '../../components/AppInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppButton from '../../components/AppButton';
-import {useUserState} from '../../state/UserState';
-import {useRequestState} from '../../state/RequestState';
-import {login} from '../../bussiness/authen';
 
 const AuthLoginScreen = () => {
-  const userState = useUserState();
-  const requestState = useRequestState();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
   const onPressLogin = async () => {
     try {
-      requestState.dispatch({type: 'PENDING'});
       const data = {
         username: username,
         password: password,
       };
-      const result = await login(data);
-      console.log(result);
-      userState.dispatch({type: 'LOGIN', payload: result});
-      requestState.dispatch({type: 'SUCCESS'});
+      console.log(data);
     } catch (error) {
       console.log(error);
-      requestState.dispatch({type: 'ERROR', payload: error});
     }
   };
   const showState = () => {
-    console.log('STATE: ', userState.state);
+    console.log('STATE: ');
   };
+
   useEffect(() => {
     console.log('INIT SCREEN');
   }, []);
+
   return (
     <AppBackgroundView>
       <View style={[globalStyles.flex1, styles.header]}>
