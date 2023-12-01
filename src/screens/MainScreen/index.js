@@ -3,8 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeNavigation from '../../navigation/homeNavigation';
 import AuthNavigation from '../../navigation/authNavigation';
 import {Loader} from '../../components';
+import {useSelector} from 'react-redux';
+import {isFetchingSelector} from '../../redux/selectors/requestSeletor';
 
 const MainScreen = () => {
+  // const dispatch = useDispatch();
+  const isLoading = useSelector(isFetchingSelector);
+  console.log(isLoading);
   useEffect(() => {
     console.log('MAIN INIT');
   }, []);
@@ -18,7 +23,7 @@ const MainScreen = () => {
   return (
     <NavigationContainer>
       {render()}
-      {/* <Loader /> */}
+      <Loader isLoading={isLoading} />
     </NavigationContainer>
   );
 };

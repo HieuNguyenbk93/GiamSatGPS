@@ -3,9 +3,9 @@ import React from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 import {ColorGoogle} from '../../utils/constant';
 
-const Loader = isLoading => {
+const Loader = ({isLoading}) => {
   if (!isLoading) {
-    return null; // Don't render the component if isLoading is false
+    return <></>; // Don't render the component if isLoading is false
   }
 
   return (

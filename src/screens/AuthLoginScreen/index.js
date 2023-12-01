@@ -6,8 +6,15 @@ import {ColorGoogle} from '../../utils/constant';
 import AppInput from '../../components/AppInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppButton from '../../components/AppButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {isErrorSelector} from '../../redux/selectors/requestSeletor';
+import {authenSelector} from '../../redux/selectors/authenSelector';
+import {loginThunk} from '../../redux/thunk/authenThunkAction';
 
 const AuthLoginScreen = () => {
+  const dispatch = useDispatch();
+  const isError = useSelector(isErrorSelector);
+  const authen = useSelector(authenSelector);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +24,7 @@ const AuthLoginScreen = () => {
         username: username,
         password: password,
       };
-      console.log(data);
+      dispatch(loginThunk(data));
     } catch (error) {
       console.log(error);
     }

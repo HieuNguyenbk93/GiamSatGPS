@@ -1,10 +1,14 @@
 import * as React from 'react';
 import MainScreen from './src/screens/MainScreen';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/root-store';
 
 function App() {
   return (
     <>
-      <MainScreen />
+      <Provider store={store}>
+        <MainScreen />
+      </Provider>
     </>
   );
 }
