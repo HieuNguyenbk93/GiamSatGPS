@@ -14,7 +14,7 @@ const MainScreen = () => {
     console.log('MAIN INIT');
   }, []);
   const render = () => {
-    if (false) {
+    if (true) {
       return <HomeNavigation />;
     } else {
       return <AuthNavigation />;
