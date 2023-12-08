@@ -20,6 +20,7 @@ export const ScreenName = {
   authLogin: 'AuthLoginScreen',
   authSignUp: 'AuthSignUp',
   home: 'Home',
+  map: 'Map',
   profile: 'Profile',
 };
 

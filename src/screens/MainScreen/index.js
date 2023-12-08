@@ -9,7 +9,6 @@ import {isFetchingSelector} from '../../redux/selectors/requestSeletor';
 const MainScreen = () => {
   // const dispatch = useDispatch();
   const isLoading = useSelector(isFetchingSelector);
-  console.log(isLoading);
   useEffect(() => {
     console.log('MAIN INIT');
   }, []);
