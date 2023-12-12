@@ -21,6 +21,7 @@ export const ScreenName = {
   authSignUp: 'AuthSignUp',
   home: 'Home',
   map: 'Map',
+  backgroundFetch: 'BackgroundFetch',
   profile: 'Profile',
 };
 
