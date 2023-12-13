@@ -7,34 +7,44 @@ import AppInput from '../../components/AppInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppButton from '../../components/AppButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {isErrorSelector} from '../../redux/selectors/requestSeletor';
+import {
+  errorSelector,
+  isErrorSelector,
+} from '../../redux/selectors/requestSeletor';
 import {authenSelector} from '../../redux/selectors/authenSelector';
 import {loginThunk} from '../../redux/thunk/authenThunkAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthLoginScreen = () => {
   const dispatch = useDispatch();
   const isError = useSelector(isErrorSelector);
+  const error = useSelector(errorSelector);
   const authen = useSelector(authenSelector);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const onPressLogin = async () => {
-    try {
-      const data = {
-        username: username,
-        password: password,
-      };
-      dispatch(loginThunk(data));
-    } catch (error) {
-      console.log(error);
-    }
+  const onPressLogin = () => {
+    const data = {
+      userName: username,
+      password: password,
+    };
+    dispatch(loginThunk(data));
   };
+
   const showState = () => {
-    console.log('STATE: ');
+    console.log('STATE: ', authen);
+    console.log('error: ', isError, error);
   };
 
   useEffect(() => {
-    console.log('INIT SCREEN');
+    const callApi = async () => {
+      const getUserName = await AsyncStorage.getItem('userName');
+      const getPassword = await AsyncStorage.getItem('password');
+      console.log(getUserName, getPassword);
+      setUsername(getUserName);
+      setPassword(getPassword);
+    };
+    callApi();
   }, []);
 
   return (

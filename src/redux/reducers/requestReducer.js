@@ -9,7 +9,7 @@ const initalState = {
 const requestReducer = (state = initalState, {type, payload}) => {
   switch (type) {
     case LOADING:
-      return {...state, isLoading: true};
+      return {...state, isLoading: true, isError: false};
     case SUCCESS:
       return {isLoading: false, isError: false, error: ''};
     case ERROR:
