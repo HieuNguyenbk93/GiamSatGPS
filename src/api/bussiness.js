@@ -21,7 +21,7 @@ export const updateLocationRequest = async (params, token) => {
   const bear = 'Bearer ' + token;
   console.log(url);
   return await axios({
-    method: 'get',
+    method: 'post',
     url: url,
     headers: {'Content-Type': 'application/json', Authorization: bear},
     data: data,

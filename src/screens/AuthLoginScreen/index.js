@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import globalStyles from '../../utils/globalStyle';
 import {AppBackgroundView, AppText} from '../../components';
@@ -11,17 +11,20 @@ import {
   errorSelector,
   isErrorSelector,
 } from '../../redux/selectors/requestSeletor';
-import {authenSelector} from '../../redux/selectors/authenSelector';
+// import {authenSelector} from '../../redux/selectors/authenSelector';
 import {loginThunk} from '../../redux/thunk/authenThunkAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Feather from 'react-native-vector-icons/Feather';
+import {COLORS} from '../../themes';
 
 const AuthLoginScreen = () => {
   const dispatch = useDispatch();
   const isError = useSelector(isErrorSelector);
   const error = useSelector(errorSelector);
-  const authen = useSelector(authenSelector);
+  // const authen = useSelector(authenSelector);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [securePass, setSecurePass] = useState(true);
 
   const onPressLogin = () => {
     const data = {
@@ -31,16 +34,24 @@ const AuthLoginScreen = () => {
     dispatch(loginThunk(data));
   };
 
-  const showState = () => {
-    console.log('STATE: ', authen);
-    console.log('error: ', isError, error);
+  // const showState = () => {
+  //   console.log('STATE: ', authen);
+  //   console.log('error: ', isError, error);
+  // };
+
+  const passShowButton = () => {
+    if (securePass) {
+      return <Feather name="eye-off" size={30} color={COLORS.darkgray} />;
+    } else {
+      return <Feather name="eye" size={30} color={COLORS.darkgray} />;
+    }
   };
 
   useEffect(() => {
     const callApi = async () => {
       const getUserName = await AsyncStorage.getItem('userName');
       const getPassword = await AsyncStorage.getItem('password');
-      console.log(getUserName, getPassword);
+      console.log('LOGIN: ', getUserName, getPassword);
       setUsername(getUserName);
       setPassword(getPassword);
     };
@@ -63,17 +74,30 @@ const AuthLoginScreen = () => {
               onChangeText={setUsername}
             />
             <AppText>Mật khẩu</AppText>
-            <AppInput
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-            />
+            <View style={styles.boxEye}>
+              <AppInput
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={securePass}
+              />
+              <TouchableOpacity
+                style={styles.buttonEye}
+                onPress={() => setSecurePass(!securePass)}>
+                {passShowButton()}
+              </TouchableOpacity>
+            </View>
+            {isError ? (
+              <AppText style={globalStyles.danger}>{error}</AppText>
+            ) : (
+              <></>
+            )}
             <View style={styles.box}>
               <AppButton onPress={onPressLogin} title={'Đăng nhập'} />
             </View>
-            <View style={styles.box}>
+            {/* <View style={styles.box}>
               <AppButton onPress={showState} title={'STATE'} />
-            </View>
+            </View> */}
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -108,5 +132,14 @@ const styles = StyleSheet.create({
   },
   box: {
     marginVertical: 10,
+  },
+  boxEye: {
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  buttonEye: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 });

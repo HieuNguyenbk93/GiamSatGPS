@@ -12,9 +12,12 @@ const globalStyles = StyleSheet.create({
   bgWhite: {
     backgroundColor: 'white',
   },
-  row: {
+  rowCenter: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
   },
   flex1: {
     flex: 1,
@@ -24,6 +27,9 @@ const globalStyles = StyleSheet.create({
   },
   flex3: {
     flex: 3,
+  },
+  danger: {
+    color: 'red',
   },
 });
 

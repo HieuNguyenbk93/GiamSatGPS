@@ -5740,6 +5740,11 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
+"react-native-toast-message@^2.1.8":
+  "integrity" "sha512-vlDQVkvpSq9L3/GRfoKaxVQyenj/A7yHToC9M0nrSCTR9XPXzoc2AOgRQnM6GVvDhetDld9ZfGtFcucyWcGQNA=="
+  "resolved" "https://registry.npmjs.org/react-native-toast-message/-/react-native-toast-message-2.1.8.tgz"
+  "version" "2.1.8"
+
 "react-native-vector-icons@^10.0.2":
   "integrity" "sha512-ZwhUkJhIMkGL3cW7IT4sEEHu2AOzerqsRQ73UzXsB+ecBpVK5bRmp0XswiQleZKZalZfs/WIfWLXLfTQHcQo6A=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.0.2.tgz"

@@ -15,6 +15,8 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackgroundJob from 'react-native-background-actions';
 import {updateLocationRequest} from '../../api/bussiness';
+import {useSelector} from 'react-redux';
+import {authenSelector} from '../../redux/selectors/authenSelector';
 
 const AppStatusIndicator = () => {
   const appStateCurrent = useRef(AppState.currentState);
@@ -56,6 +58,7 @@ const AppStatusIndicator = () => {
 };
 
 const MapScreen = () => {
+  const authen = useSelector(authenSelector);
   const mapRef = useRef(null);
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
@@ -168,8 +171,11 @@ const MapScreen = () => {
     }
   };
 
-  const sleep = time =>
-    new Promise(resolve => setTimeout(() => resolve(), time));
+  const sleep = time => {
+    const timeRandom = Math.random(30) * 1000 + 6000 + time;
+    console.log(timeRandom);
+    return new Promise(resolve => setTimeout(() => resolve(), timeRandom));
+  };
 
   const taskRandom = async taskData => {
     if (Platform.OS === 'ios') {
@@ -184,57 +190,44 @@ const MapScreen = () => {
       console.log(BackgroundJob.isRunning(), delay);
       for (let i = 0; BackgroundJob.isRunning(); i++) {
         console.log('Runned -> ', i);
-        await BackgroundJob.updateNotification({taskDesc: 'Runned -> ' + i});
+        // await BackgroundJob.updateNotification({taskDesc: 'Runned -> ' + i});
+        await BackgroundJob.updateNotification({
+          taskDesc: 'Đang hoạt động ...',
+        });
+        await taskUpdateLocation();
         await sleep(delay);
       }
     });
   };
 
   const taskUpdateLocation = async () => {
-    // try {
     Geolocation.getCurrentPosition(
       position => {
-        console.log('get current postion', position);
-        // const _currentLongitude = position.coords.longitude;
-        // const _currentLatitude = position.coords.latitude;
+        // console.log('get current postion', position);
         const data = {
           Longitude: position.coords.longitude,
           Latitude: position.coords.longitude,
         };
-        const token =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IjA4ODg2NjI5OTIiLCJGdWxsTmFtZSI6IlRo4bqvbmcgTlQiLCJUeXBlIjoiMSIsIlVuaXRJZCI6IjcwNzMiLCJFbWFpbCI6IjA4ODg2NjI5OTJAZ21haWwuY29tIiwiSWQiOiIyMjA0OTQiLCJleHAiOjE3MDI0MTQzMjksImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.JAirTgS0b_Pb4GnX5nhJ3-BKT0GxLRE0_Xwn2tqxZfw';
-        // const callApi = async () => {
-        //   const resultApiUpdateLocation = await updateLocationRequest(
-        //     data,
-        //     token,
-        //   );
-        //   console.log('result: ', resultApiUpdateLocation.data);
-        // };
-        // callApi();
-        console.log(data);
+        const token = authen.accessToken;
+        // console.log(data, token);
         updateLocationRequest(data, token)
           .then(res => {
-            console.log(res);
+            console.log(res.data);
           })
           .catch(err => {
             console.log(err);
           });
       },
       error => {
-        // 20.979875, 105.782724
         console.log('error get current', error);
-        // alertCustom('Không lấy được vị trí', ' khởi động lại app hoặc cấp quyền vị trí cho app');
       },
       {enableHighAccuracy: true, timeout: 15000},
     );
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const options = {
-    taskName: 'Example',
-    taskTitle: 'ExampleTask title',
+    taskName: 'Giám sát GPS',
+    taskTitle: 'Ứng dụngg đang chạy GPS',
     taskDesc: 'ExampleTask desc',
     taskIcon: {
       name: 'ic_launcher',
@@ -253,18 +246,13 @@ const MapScreen = () => {
   }, []);
   useEffect(() => {
     if (locationStatus) {
-      console.log('GET CURRENT LOCATION');
       getLoaction();
       const bgJob = async () => {
         try {
           console.log('Trying to start background service');
           // if (!BackgroundJob.isRunning()) {
-          //   await BackgroundJob.start(taskUpdateLocation, options);
+          //   await BackgroundJob.start(taskRandom, options);
           // }
-          // if (BackgroundJob.isRunning()) {
-          //   await BackgroundJob.stop();
-          // }
-          console.log('Successful start!');
           await taskUpdateLocation();
         } catch (e) {
           console.log('Error', e);
